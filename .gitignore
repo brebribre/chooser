@@ -1,0 +1,28 @@
+## Xcode
+*.xcodeproj/
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Build
+build/
+*.o
+*.a
+*.dylib
+
+## Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+## macOS
+.DS_Store
+*.swp
+*~
