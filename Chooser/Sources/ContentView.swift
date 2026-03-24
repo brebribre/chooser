@@ -176,8 +176,8 @@ struct FingerCircleView: View {
 
     private var circleSize: CGFloat {
         switch finger.state {
-        case .active: return 100
-        case .winner: return 140
+        case .active: return 140
+        case .winner: return 180
         case .eliminated: return 0
         }
     }
@@ -196,7 +196,7 @@ struct FingerCircleView: View {
             if finger.state == .active && isCountdown {
                 Circle()
                     .stroke(finger.color.opacity(0.4), lineWidth: 2)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 140, height: 140)
                     .scaleEffect(waitingPulse ? 1.6 : 1.0)
                     .opacity(waitingPulse ? 0.0 : 0.5)
                     .animation(
@@ -210,7 +210,7 @@ struct FingerCircleView: View {
                 // Outer expanding ring
                 Circle()
                     .stroke(finger.color, lineWidth: 4)
-                    .frame(width: 160, height: 160)
+                    .frame(width: 200, height: 200)
                     .scaleEffect(pulsing ? 1.5 : 1.0)
                     .opacity(pulsing ? 0.0 : 0.7)
                     .animation(
@@ -221,7 +221,7 @@ struct FingerCircleView: View {
                 // Inner glow
                 Circle()
                     .fill(finger.color.opacity(0.2))
-                    .frame(width: 180, height: 180)
+                    .frame(width: 220, height: 220)
                     .scaleEffect(pulsing ? 1.1 : 0.9)
                     .animation(
                         .easeInOut(duration: 0.8).repeatForever(autoreverses: true),
