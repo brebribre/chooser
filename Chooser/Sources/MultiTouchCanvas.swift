@@ -24,10 +24,18 @@ struct MultiTouchCanvas: UIViewRepresentable {
 final class TouchCanvasUIView: UIView {
     weak var engine: GameEngine?
 
+    /// Shift the touch point up so the circle appears centered under the finger pad
+    private let fingerOffset: CGFloat = -30
+
+    private func adjustedPoint(for touch: UITouch) -> CGPoint {
+        let raw = touch.location(in: self)
+        return CGPoint(x: raw.x, y: raw.y + fingerOffset)
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let id = ObjectIdentifier(touch)
-            let point = touch.location(in: self)
+            let point = adjustedPoint(for: touch)
             engine?.fingerDown(id: id, position: point)
         }
     }
@@ -35,7 +43,7 @@ final class TouchCanvasUIView: UIView {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let id = ObjectIdentifier(touch)
-            let point = touch.location(in: self)
+            let point = adjustedPoint(for: touch)
             engine?.fingerMoved(id: id, position: point)
         }
     }

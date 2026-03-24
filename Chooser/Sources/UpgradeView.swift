@@ -28,21 +28,15 @@ struct UpgradeView: View {
                             Circle()
                                 .fill(.yellow.opacity(0.1))
                                 .frame(width: 120, height: 120)
-                                .scaleEffect(animateCrown ? 1.08 : 1.0)
 
                             Circle()
                                 .fill(.yellow.opacity(0.05))
                                 .frame(width: 160, height: 160)
-                                .scaleEffect(animateCrown ? 1.12 : 1.0)
 
                             Image(systemName: "crown.fill")
                                 .font(.system(size: 52))
                                 .foregroundStyle(.yellow)
                         }
-                        .animation(
-                            .easeInOut(duration: 2.0).repeatForever(autoreverses: true),
-                            value: animateCrown
-                        )
                         .padding(.top, 40)
 
                         // Title
