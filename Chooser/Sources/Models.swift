@@ -177,8 +177,8 @@ final class GameSettings: ObservableObject {
         }
         favoredPosition = d.object(forKey: "favoredPosition") as? Int ?? 1
         favoredProbability = d.object(forKey: "favoredProbability") as? Double ?? 80
-        countdownDuration = d.object(forKey: "countdownDuration") as? Double ?? 3
-        stabilizationDelay = d.object(forKey: "stabilizationDelay") as? Double ?? 1.5
+        countdownDuration = d.object(forKey: "countdownDuration") as? Double ?? 2
+        stabilizationDelay = d.object(forKey: "stabilizationDelay") as? Double ?? 1
         if let raw = d.string(forKey: "backgroundTheme"),
            let theme = BackgroundTheme(rawValue: raw) {
             backgroundTheme = theme

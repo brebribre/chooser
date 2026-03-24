@@ -229,8 +229,8 @@ struct SettingsView: View {
                         settings.selectionMode = .random
                         settings.favoredPosition = 1
                         settings.favoredProbability = 80
-                        settings.countdownDuration = 3
-                        settings.stabilizationDelay = 1.5
+                        settings.countdownDuration = 2
+                        settings.stabilizationDelay = 1
                         if store.isPremium {
                             settings.backgroundTheme = .midnight
                         }

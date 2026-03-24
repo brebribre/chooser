@@ -38,7 +38,6 @@ struct UpgradeView: View {
                             Image(systemName: "crown.fill")
                                 .font(.system(size: 52))
                                 .foregroundStyle(.yellow)
-                                .scaleEffect(animateCrown ? 1.05 : 1.0)
                         }
                         .animation(
                             .easeInOut(duration: 2.0).repeatForever(autoreverses: true),
@@ -165,7 +164,7 @@ struct UpgradeView: View {
     }
 
     private var priceText: String {
-        store.product?.displayPrice ?? "$0.99"
+        store.product?.displayPrice ?? "€1.99"
     }
 }
 
