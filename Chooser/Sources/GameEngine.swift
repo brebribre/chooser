@@ -23,7 +23,7 @@ final class GameEngine: ObservableObject {
         guard phase == .idle || phase == .registering else { return }
 
         fingerOrderCounter += 1
-        let color = ColorPalette.color(for: fingers.count)
+        let color = nextAvailableColor()
         let finger = FingerInfo(
             id: id,
             position: position,
@@ -71,6 +71,20 @@ final class GameEngine: ObservableObject {
         default:
             break
         }
+    }
+
+    // MARK: - Color Assignment
+
+    private func nextAvailableColor() -> Color {
+        let usedColors = Set(fingers.values.map { $0.color })
+        for i in 0..<ColorPalette.colors.count {
+            let candidate = ColorPalette.colors[i]
+            if !usedColors.contains(candidate) {
+                return candidate
+            }
+        }
+        // Fallback: all colors in use, wrap around
+        return ColorPalette.color(for: fingers.count)
     }
 
     // MARK: - Stabilization
