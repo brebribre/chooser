@@ -134,7 +134,16 @@ final class GameEngine: ObservableObject {
 
         let winner: FingerInfo
 
-        switch settings.selectionMode {
+        // Safety: if any premium mode is active but not premium, fall back to random
+        let mode: SelectionMode
+        let isPremium = UserDefaults.standard.bool(forKey: "isPremium")
+        if !isPremium && settings.selectionMode != .random {
+            mode = .random
+        } else {
+            mode = settings.selectionMode
+        }
+
+        switch mode {
         case .firstToTouch:
             winner = activeFingers.first!
 

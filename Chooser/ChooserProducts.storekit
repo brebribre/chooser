@@ -1,0 +1,41 @@
+{
+  "identifier" : "com.choosergame.chooser.products",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "1",
+      "localizations" : [
+        {
+          "description" : "Unlock custom weighted selection and 8 premium background themes.",
+          "displayName" : "Chooser Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.choosergame.chooser.premium",
+      "referenceName" : "Chooser Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "setting" : 0
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
