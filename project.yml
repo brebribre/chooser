@@ -18,6 +18,7 @@ targets:
     sources:
       - path: Chooser/Sources
       - path: Chooser/Assets.xcassets
+      - path: Chooser/ChooserProducts.storekit
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES

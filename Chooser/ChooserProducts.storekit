@@ -5,13 +5,13 @@
   ],
   "products" : [
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "1.99",
       "familyShareable" : false,
       "internalID" : "1",
       "localizations" : [
         {
           "description" : "Unlock custom weighted selection and 8 premium background themes.",
-          "displayName" : "Chooser Pro",
+          "displayName" : "Choosr Pro",
           "locale" : "en_US"
         }
       ],
