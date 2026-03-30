@@ -164,7 +164,7 @@ struct SettingsView: View {
                         Button {
                             showUpgradeSheet = true
                         } label: {
-                            VStack(spacing: 14) {
+                            VStack(alignment: .leading, spacing: 14) {
                                 HStack(spacing: 12) {
                                     ZStack {
                                         Circle()
@@ -247,6 +247,8 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showUpgradeSheet) {
                 UpgradeView()
+                    .interactiveDismissDisabled(false)
+                    .presentationDetents([.large])
             }
         }
     }

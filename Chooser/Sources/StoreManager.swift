@@ -15,7 +15,7 @@ final class StoreManager: ObservableObject {
     // MARK: - Published State
     @Published private(set) var isPremium: Bool = false
     @Published private(set) var product: Product?
-    @Published private(set) var purchaseState: PurchaseState = .idle
+    @Published var purchaseState: PurchaseState = .idle
 
     enum PurchaseState {
         case idle
@@ -51,6 +51,7 @@ final class StoreManager: ObservableObject {
         do {
             let products = try await Product.products(for: [Self.premiumProductID])
             product = products.first
+            print("[StoreManager] Loaded products: \(products.map { $0.id })")
         } catch {
             print("[StoreManager] Failed to load products: \(error)")
         }
@@ -59,12 +60,13 @@ final class StoreManager: ObservableObject {
     // MARK: - Purchase
 
     func purchase() async {
-        // If product isn't available yet (IAP pending review), use fallback flow
+        // If product isn't loaded yet, try once more
+        if product == nil {
+            await loadProduct()
+        }
+
         guard let product else {
-            purchaseState = .purchasing
-            try? await Task.sleep(nanoseconds: 1_500_000_000)
-            setIsPremium(true)
-            purchaseState = .purchased
+            purchaseState = .failed("Product not available. Please try again later.")
             return
         }
 

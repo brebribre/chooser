@@ -164,10 +164,13 @@ struct WinnerColorSpreadView: View {
 struct FingerCircleView: View {
     let finger: FingerInfo
     let phase: GamePhase
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     @State private var appeared = false
     @State private var pulsing = false
     @State private var waitingPulse = false
+
+    private var isIPad: Bool { sizeClass == .regular }
 
     private var isCountdown: Bool {
         if case .countdown = phase { return true }
@@ -175,9 +178,10 @@ struct FingerCircleView: View {
     }
 
     private var circleSize: CGFloat {
+        let scale: CGFloat = isIPad ? 1.5 : 1.0
         switch finger.state {
-        case .active: return 140
-        case .winner: return 180
+        case .active: return 140 * scale
+        case .winner: return 180 * scale
         case .eliminated: return 0
         }
     }
@@ -196,7 +200,7 @@ struct FingerCircleView: View {
             if finger.state == .active && isCountdown {
                 Circle()
                     .stroke(finger.color.opacity(0.4), lineWidth: 2)
-                    .frame(width: 140, height: 140)
+                    .frame(width: circleSize, height: circleSize)
                     .scaleEffect(waitingPulse ? 1.6 : 1.0)
                     .opacity(waitingPulse ? 0.0 : 0.5)
                     .animation(
@@ -209,8 +213,8 @@ struct FingerCircleView: View {
             if finger.state == .winner {
                 // Outer expanding ring
                 Circle()
-                    .stroke(finger.color, lineWidth: 4)
-                    .frame(width: 200, height: 200)
+                    .stroke(finger.color, lineWidth: isIPad ? 6 : 4)
+                    .frame(width: circleSize * 1.1, height: circleSize * 1.1)
                     .scaleEffect(pulsing ? 1.5 : 1.0)
                     .opacity(pulsing ? 0.0 : 0.7)
                     .animation(
@@ -221,7 +225,7 @@ struct FingerCircleView: View {
                 // Inner glow
                 Circle()
                     .fill(finger.color.opacity(0.2))
-                    .frame(width: 220, height: 220)
+                    .frame(width: circleSize * 1.22, height: circleSize * 1.22)
                     .scaleEffect(pulsing ? 1.1 : 0.9)
                     .animation(
                         .easeInOut(duration: 0.8).repeatForever(autoreverses: true),
@@ -254,7 +258,7 @@ struct FingerCircleView: View {
             // Winner crown icon
             if finger.state == .winner {
                 Image(systemName: "crown.fill")
-                    .font(.system(size: 28))
+                    .font(.system(size: isIPad ? 42 : 28))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
                     .transition(.scale.combined(with: .opacity))
@@ -303,6 +307,7 @@ struct CountdownOverlay: View {
 /// onAppear fires fresh every second, restarting all animations.
 private struct CountdownTickView: View {
     let value: Int
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     @State private var scale: CGFloat = 0.3
     @State private var opacity: Double = 1.0
@@ -310,28 +315,30 @@ private struct CountdownTickView: View {
     @State private var ringOpacity: Double = 0.6
     @State private var bgPulse: CGFloat = 0.6
 
+    private var s: CGFloat { sizeClass == .regular ? 1.5 : 1.0 }
+
     var body: some View {
         ZStack {
             // Background shockwave ring — expands and fades each tick
             Circle()
                 .stroke(.white.opacity(ringOpacity), lineWidth: 2)
-                .frame(width: 160, height: 160)
+                .frame(width: 160 * s, height: 160 * s)
                 .scaleEffect(ringScale)
 
             // Soft background glow pulse
             Circle()
                 .fill(.white.opacity(0.04))
-                .frame(width: 260, height: 260)
+                .frame(width: 260 * s, height: 260 * s)
                 .scaleEffect(bgPulse)
 
             // Outer ring
             Circle()
                 .stroke(.white.opacity(0.12), lineWidth: 4)
-                .frame(width: 140, height: 140)
+                .frame(width: 140 * s, height: 140 * s)
 
             // The number
             Text("\(value)")
-                .font(.system(size: 80, weight: .bold, design: .rounded))
+                .font(.system(size: 80 * s, weight: .bold, design: .rounded))
                 .foregroundStyle(.white.opacity(opacity))
                 .scaleEffect(scale)
         }
@@ -365,11 +372,14 @@ private struct CountdownTickView: View {
 
 struct IdleOverlay: View {
     @State private var animating = false
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
+    private var isIPad: Bool { sizeClass == .regular }
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: isIPad ? 20 : 12) {
             Image(systemName: "hand.point.up.fill")
-                .font(.system(size: 48))
+                .font(.system(size: isIPad ? 72 : 48))
                 .foregroundStyle(.white.opacity(0.4))
                 .scaleEffect(animating ? 1.08 : 1.0)
                 .animation(
@@ -378,11 +388,11 @@ struct IdleOverlay: View {
                 )
 
             Text("Place fingers on screen")
-                .font(.system(size: 22, weight: .medium, design: .rounded))
+                .font(.system(size: isIPad ? 32 : 22, weight: .medium, design: .rounded))
                 .foregroundStyle(.white.opacity(0.5))
 
             Text("2 or more players")
-                .font(.system(size: 15, weight: .regular, design: .rounded))
+                .font(.system(size: isIPad ? 20 : 15, weight: .regular, design: .rounded))
                 .foregroundStyle(.white.opacity(0.3))
         }
         .onAppear { animating = true }
